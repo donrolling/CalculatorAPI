@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using BootStrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace CalculationAPI
 {
@@ -30,8 +23,15 @@ namespace CalculationAPI
             var currentDirectory = Directory.GetCurrentDirectory();
             var appSettings = Bootstrapper.GetJSONConfigFile<AppSettings>($"{ currentDirectory }{ Path.DirectorySeparatorChar }appsettings.json", "AppSettings");
             Bootstrapper.ConfigureServices(appSettings, services);
-
             services.AddControllers();
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+            // Disable the check in EndpointRouting:
+            services.AddRouting(r => r.SuppressCheckForUnhandledSecurityMetadata = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +42,14 @@ namespace CalculationAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+            app.Use((context, next) =>
+            {
+                context.Items["__CorsMiddlewareInvoked"] = true;
+                return next();
+            });
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

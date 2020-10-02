@@ -1,10 +1,12 @@
 ﻿using CalculationEngine.Interfaces;
 using CalculationEngine.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CalculationAPI.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class MathController : ControllerBase
