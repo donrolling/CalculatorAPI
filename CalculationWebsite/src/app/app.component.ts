@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+
 import { Operations } from '../models/Operations';
 
 @Component({
@@ -10,8 +11,10 @@ import { Operations } from '../models/Operations';
 })
 export class AppComponent {
   title = 'Calculation Website';
-  baseUrl: string = "https://localhost:32770/";
+  //baseUrl: string = "http://drolling-calculator.centralus.azurecontainer.io/";
+  baseUrl: string = "http://localhost:32777/";
   calculateUrl: string = `${ this.baseUrl }api/math`;
+  valuesUrl: string = `${ this.baseUrl }api/values`;
 
   mathFormGroup = new FormGroup({
     inputA: new FormControl(0),
@@ -20,16 +23,16 @@ export class AppComponent {
   operatorSymbol: string = "+";
   operator: Operations = Operations.Add;
   OperationsType = Operations;
-  answer: number = 0; 
-  a: number = 0; 
-  b: number = 0; 
+  answer: number = 0;
+  a: number = 0;
+  b: number = 0;
 
   constructor(private http: HttpClient){}
 
   setOperator(value: Operations){
     this.operator = value;
   }
-  
+
   onSubmit() {
     switch(this.operator){
       case Operations.Add:
@@ -52,8 +55,8 @@ export class AppComponent {
       inputB: this.b,
       operation: this.operator
     };
-    const data = JSON.stringify(calculateOperation);
-    console.log(data);
+    // const data = JSON.stringify(calculateOperation);
+    // console.log(data);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': '*/*',
@@ -63,13 +66,11 @@ export class AppComponent {
     this.http
       .post(
         this.calculateUrl,
-        data, 
-        {
-          headers: headers
-        }
+        calculateOperation,
+        { headers: headers }
       ).subscribe((data: number) => this.answer = data);
   }
-  
+
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode === 46) {
