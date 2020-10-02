@@ -1,0 +1,26 @@
+<h1>Let's do some math!</h1>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="mathFormGroup" class="mathForm">
+  <div class="numInput">
+    <input type="text" formControlName="inputA" (keypress)="numberOnly($event)">
+  </div>
+  <div class="operators">
+    <button (click)="setOperator(OperationsType.Add)">+</button>
+    <button (click)="setOperator(OperationsType.Subtract)">-</button>
+    <button (click)="setOperator(OperationsType.Multiply)">*</button>
+    <button (click)="setOperator(OperationsType.Divide)">/</button>
+  </div>
+  <div class="numInput">
+    <input type="text" formControlName="inputB" (keypress)="numberOnly($event)">
+  </div>
+  <div class="submit">
+    <button type="submit"> = </button>
+  </div>
+  <div class="answer">
+    <span>{{a}}</span>
+    <span>{{operatorSymbol}}</span>
+    <span>{{b}}</span>
+    <span> = </span>
+    <span>{{answer}}</span>
+  </div>
+</form>
