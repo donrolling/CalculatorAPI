@@ -1,8 +1,5 @@
-import { Operations } from './Operations'
-
-export class CalculateOperation {    
-    inputA: number;    
-    inputB: number;
-    operation: string;
-    operationType: number;
+export class CalculateOperation {
+    InputA: number;
+    InputB: number;
+    Operation: number;
 }
