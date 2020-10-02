@@ -1,4 +1,6 @@
-﻿namespace CalculationEngine
+﻿using CalculationEngine.Models;
+
+namespace CalculationEngine.Interfaces
 {
     public interface IMathEngine
     {
@@ -10,5 +12,6 @@
         decimal Subtract(decimal a, decimal b);
         decimal Multiply(decimal a, decimal b);
         decimal Divide(decimal a, decimal b);
+        decimal Calculate(CalculateOperation calculateOperation);
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using CalculationEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CalculationEngine.Interfaces;
 
 namespace CalculationTests
 {

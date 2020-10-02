@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BootStrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +27,10 @@ namespace CalculationAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var appSettings = Bootstrapper.GetJSONConfigFile<AppSettings>($"{ currentDirectory }{ Path.DirectorySeparatorChar }appsettings.json", "AppSettings");
+            Bootstrapper.ConfigureServices(appSettings, services);
+
             services.AddControllers();
         }
 
