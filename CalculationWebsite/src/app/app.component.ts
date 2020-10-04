@@ -11,8 +11,8 @@ import { Operations } from '../models/Operations';
 })
 export class AppComponent {
   title = 'Calculation Website';
-  baseUrl: string = "http://drolling-calculator.centralus.azurecontainer.io/";
-  //baseUrl: string = "http://localhost:32777/";
+  //baseUrl: string = 'http://localhost:32777/';
+  baseUrl: string = 'http://drolling-calculator.centralus.azurecontainer.io/';
   calculateUrl: string = `${ this.baseUrl }api/math`;
   valuesUrl: string = `${ this.baseUrl }api/values`;
 
@@ -20,34 +20,35 @@ export class AppComponent {
     inputA: new FormControl(0),
     inputB: new FormControl(0)
   });
-  operatorSymbol: string = "+";
+  operatorSymbol: string = '+';
   operator: Operations = Operations.Add;
   OperationsType = Operations;
-  answer: number = 0;
+  answer: string = 'x';
   a: number = 0;
   b: number = 0;
 
   constructor(private http: HttpClient){}
 
   setOperator(value: Operations){
-    this.operator = value;
+    this.operator = value;    
+    switch(this.operator){
+      case Operations.Add:
+        this.operatorSymbol = '+';
+        break;
+      case Operations.Subtract:
+        this.operatorSymbol = '-';
+        break;
+      case Operations.Multiply:
+        this.operatorSymbol = '*';
+        break;
+      case Operations.Divide:
+        this.operatorSymbol = '/';
+        break;
+    }
+    this.answer = 'x';
   }
 
   onSubmit() {
-    switch(this.operator){
-      case Operations.Add:
-        this.operatorSymbol = "+";
-        break;
-      case Operations.Subtract:
-        this.operatorSymbol = "-";
-        break;
-      case Operations.Multiply:
-        this.operatorSymbol = "*";
-        break;
-      case Operations.Divide:
-        this.operatorSymbol = "/";
-        break;
-    }
     this.a = parseFloat(this.mathFormGroup.controls.inputA.value);
     this.b = parseFloat(this.mathFormGroup.controls.inputB.value);
     var calculateOperation = {
@@ -55,20 +56,19 @@ export class AppComponent {
       inputB: this.b,
       operation: this.operator
     };
-    // const data = JSON.stringify(calculateOperation);
-    // console.log(data);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': '*/*',
-      'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, HEAD, OPTIONS',
-      'Access-Control-Allow-Origin': '*'
-    });
     this.http
       .post(
         this.calculateUrl,
-        calculateOperation,
-        { headers: headers }
-      ).subscribe((data: number) => this.answer = data);
+        calculateOperation
+      )
+      .subscribe(
+        (data: number) => {
+          this.answer = data.toString()
+        },
+        error => {
+          alert('A math error occured, check your inputs. Did you divide by zero?');
+        }
+      );
   }
 
   numberOnly(event): boolean {
