@@ -6,7 +6,30 @@ namespace CalculationEngine.Engines
 {
     public class MathEngine : IMathEngine
     {
-        public decimal Calculate(CalculateOperation calculateOperation) {
+        public decimal Calculate(CalculateDecimalsOperation calculateOperation)
+        {
+            switch (calculateOperation.Operation)
+            {
+                case Operation.Add:
+                    return Add(calculateOperation.InputA, calculateOperation.InputB);
+
+                case Operation.Subtract:
+                    return Subtract(calculateOperation.InputA, calculateOperation.InputB);
+
+                case Operation.Multiply:
+                    return Multiply(calculateOperation.InputA, calculateOperation.InputB);
+
+                case Operation.Divide:
+                    return Divide(calculateOperation.InputA, calculateOperation.InputB);
+
+                default:
+                    break;
+            }
+            throw new Exception("Operation Not Found");
+        }
+
+        public decimal Calculate(CalculateIntegersOperation calculateOperation)
+        {
             switch (calculateOperation.Operation)
             {
                 case Operation.Add:

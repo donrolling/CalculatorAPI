@@ -13,8 +13,7 @@ export class AppComponent {
   title = 'Calculation Website';
   //baseUrl: string = 'http://localhost:32777/';
   baseUrl: string = 'http://drolling-calculator.centralus.azurecontainer.io/';
-  calculateUrl: string = `${ this.baseUrl }api/math`;
-  valuesUrl: string = `${ this.baseUrl }api/values`;
+  calculateUrl: string = `${ this.baseUrl }api/math/decimals`;
 
   mathFormGroup = new FormGroup({
     inputA: new FormControl(0),

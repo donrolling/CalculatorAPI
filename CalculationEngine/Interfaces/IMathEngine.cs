@@ -12,6 +12,7 @@ namespace CalculationEngine.Interfaces
         decimal Subtract(decimal a, decimal b);
         decimal Multiply(decimal a, decimal b);
         decimal Divide(decimal a, decimal b);
-        decimal Calculate(CalculateOperation calculateOperation);
+        decimal Calculate(CalculateIntegersOperation calculateOperation);
+        decimal Calculate(CalculateDecimalsOperation calculateOperation);
     }
 }

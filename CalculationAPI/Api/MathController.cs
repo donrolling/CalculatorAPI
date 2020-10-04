@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 namespace CalculationAPI.Controllers
 {
     [EnableCors("CorsPolicy")]
-    [Route("api/[controller]")]
     [ApiController]
     public class MathController : ControllerBase
     {
@@ -22,7 +21,15 @@ namespace CalculationAPI.Controllers
         }
 
         [HttpPost]
-        public decimal Post(CalculateOperation calculateOperation)
+        [Route("api/math/integers")]
+        public decimal Post(CalculateIntegersOperation calculateOperation)
+        {
+            return _mathEngine.Calculate(calculateOperation);
+        }
+
+        [HttpPost]
+        [Route("api/math/decimals")]
+        public decimal Post(CalculateDecimalsOperation calculateOperation)
         {
             return _mathEngine.Calculate(calculateOperation);
         }

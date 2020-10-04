@@ -1,6 +1,6 @@
 ﻿namespace CalculationEngine.Models
 {
-    public class CalculateOperation
+    public class CalculateDecimalsOperation
     {
         public decimal InputA { get; set; }
         public decimal InputB { get; set; }
