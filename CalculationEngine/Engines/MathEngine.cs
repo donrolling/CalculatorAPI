@@ -62,7 +62,7 @@ namespace CalculationEngine.Engines
 
         public decimal Divide(int a, int b)
         {
-            return a / (decimal)b;
+            return (decimal)a / (decimal)b;
         }
 
         public decimal Divide(decimal a, decimal b)
